@@ -7,7 +7,7 @@ source/main.o source/main.d: ../source/main.c ../board/board.h \
  ../drivers/fsl_common.h ../drivers/fsl_gpio.h ../board/peripherals.h \
  ../board/pin_mux.h ../board/clock_config.h ../CMSIS/MKL25Z4.h \
  ../utilities/fsl_debug_console.h ../source/led_control.h \
- ../source/pattern_generator.h
+ ../source/pattern_generator.h ../source/memory_test.h
 
 ../board/board.h:
 
@@ -50,3 +50,5 @@ source/main.o source/main.d: ../source/main.c ../board/board.h \
 ../source/led_control.h:
 
 ../source/pattern_generator.h:
+
+../source/memory_test.h:

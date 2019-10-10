@@ -12,7 +12,8 @@
 * version 1.0
 *
 ***********************************************************************/
-
+#ifndef __PATTERN_GENERATOR_H__
+#define __PATTERN_GENERATOR_H__
 
 
 #include <stdint.h>
@@ -32,4 +33,6 @@
 *@return void
 */
 void gen_pattern(uint8_t *pattern, size_t length, uint8_t seed);
+
+#endif /* __PATTERN_GENERATOR_H__ */
 

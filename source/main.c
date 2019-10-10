@@ -42,6 +42,7 @@
 
 #include "led_control.h"
 #include "pattern_generator.h"
+#include "memory_test.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
@@ -76,20 +77,18 @@ int main(void) {
     /* Enter an infinite loop, just incrementing a counter. */
  //   while(1) {
         i++ ;
+        uint32_t * address_ptr = allocate_words(16);
+        uint8_t * memSubset_ptr = display_memory(address_ptr, 16);
         uint8_t pattern[16] = {0};
         gen_pattern(pattern, 16, 120);
 
-        for(uint8_t i = 0; i < 16; i++)
-        {
-        	PRINTF("%X", pattern[i]);
-        }
-
-        gen_pattern(pattern, 16, 120);
 
         for(uint8_t i = 0; i < 16; i++)
         {
-            PRINTF("%X", pattern[i]);
+        	PRINTF("%X\n\r", *(address_ptr+i));
+        	PRINTF("%X\n\r", *(memSubset_ptr+i));
         }
+
         /* 'Dummy' NOP to allow source level single stepping of
             tight while() loop */
         __asm volatile ("nop");

@@ -6,6 +6,7 @@
 C_SRCS += \
 ../source/led_control.c \
 ../source/main.c \
+../source/memory_test.c \
 ../source/mtb.c \
 ../source/pattern_generator.c \
 ../source/semihost_hardfault.c 
@@ -13,6 +14,7 @@ C_SRCS += \
 OBJS += \
 ./source/led_control.o \
 ./source/main.o \
+./source/memory_test.o \
 ./source/mtb.o \
 ./source/pattern_generator.o \
 ./source/semihost_hardfault.o 
@@ -20,6 +22,7 @@ OBJS += \
 C_DEPS += \
 ./source/led_control.d \
 ./source/main.d \
+./source/memory_test.d \
 ./source/mtb.d \
 ./source/pattern_generator.d \
 ./source/semihost_hardfault.d 
