@@ -50,6 +50,8 @@ const uint8_t red = 0;
 const uint8_t green = 1;
 const uint8_t blue = 2;
 
+mem_status result = SUCCESS;
+
 void delay(volatile int32_t number)
 {
 	while(number !=0)
@@ -78,16 +80,10 @@ int main(void) {
  //   while(1) {
         i++ ;
         uint32_t * address_ptr = allocate_words(16);
-        uint8_t * memSubset_ptr = display_memory(address_ptr, 16);
-        uint8_t pattern[16] = {0};
-        gen_pattern(pattern, 16, 120);
+ //       uint32_t * testPattern_ptr = allocate_words(16);
 
+        result = write_pattern(address_ptr, 16, 21);
 
-        for(uint8_t i = 0; i < 16; i++)
-        {
-        	PRINTF("%X\n\r", *(address_ptr+i));
-        	PRINTF("%X\n\r", *(memSubset_ptr+i));
-        }
 
         /* 'Dummy' NOP to allow source level single stepping of
             tight while() loop */
