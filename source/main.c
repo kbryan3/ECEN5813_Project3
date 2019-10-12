@@ -46,11 +46,17 @@
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
-const uint8_t red = 0;
-const uint8_t green = 1;
-const uint8_t blue = 2;
+const uint8_t RED = 0;
+const uint8_t GREEN = 1;
+const uint8_t BLUE = 2;
+const uint8_t OFF = 3;
+const size_t LENGTH = 16;
+const uint8_t SEED = 29;
 
 mem_status result = SUCCESS;
+mem_status test = SUCCESS;
+
+uint8_t passCount = 0;
 
 void delay(volatile int32_t number)
 {
@@ -72,22 +78,140 @@ int main(void) {
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
     initializeLEDs();
+    toggleLED(OFF);
 
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
- //   while(1) {
-        i++ ;
-        uint32_t * address_ptr = allocate_words(16);
- //       uint32_t * testPattern_ptr = allocate_words(16);
+    /* Enter an infinite loop*/
+    while(1) {
+    	//pointer to values of failed addresses during memory test
+    	uint32_t * addressFailed_ptr = allocate_words(LENGTH);
+    	uint8_t * memDisplay = allocate_words(LENGTH);
+    	//start memory test, turn LED Blue
+    	toggleLED(BLUE);
 
-        result = write_pattern(address_ptr, 16, 21);
+    	//Allocate 16 bytes of memory
+    	uint32_t * pattern_ptr = allocate_words(LENGTH);
+
+    	//Write a memory pattern to the 16 byte region
+    	result = write_pattern(pattern_ptr, LENGTH, SEED);
+    	if(result == FAILED)
+    	{
+    		test = FAILED;
+    		//do something with logger
+    	}
+    	//Display region's memory pattern
+        memDisplay = display_memory(pattern_ptr, LENGTH);
+        if(result == FAILED)
+        {
+        	test = FAILED;
+        	//do something with logger
+        }
+        else
+        {
+        	//this will be log_data function
+        	for(uint8_t i = 0; i<LENGTH; i++)
+        	{
+        		PRINTF("%X", memDisplay[i]);
+        	}
+        	PRINTF("/n/r");
+        }
+        //Verify region's memory pattern
+        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, seed);
+        for(uint8 i = 0; i<LENGTH; i++)
+        {
+        	if(*addressFailed_ptr != 0)
+        	{
+        		test = FAILED;
+        		PRINTF("Failure at location: 0x%X\n\r", *addressFailed_ptr);
+        	}
+        }
+
+
+        //Write 0xFFEE to a position within that region
+        result = write_memory((pattern_ptr+2), 0xFF);
+        if(result == FAILED)
+        {
+        	//print something
+        }
+        else
+        {
+        	//this will be log_data function
+        	for(uint8_t i = 0; i<LENGTH; i++)
+        	{
+        		PRINTF("%X", memDisplay[i]);
+        	}
+        	PRINTF("/n/r");
+        }
+
+        //Verify pattern again
+        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, seed);
+        for(uint8 i = 0; i<LENGTH; i++)
+        {
+        	if(*addressFailed_ptr != 0)
+            {
+        		passCount++;
+            }
+        }
+        if(passCount == 0)
+        {
+        	test = FAILED;
+            //this will be log_data function
+            for(uint8_t i = 0; i<LENGTH; i++)
+            {
+               	PRINTF("%X", memDisplay[i]);
+            }
+            PRINTF("/n/r");
+        }
+        else
+        {
+        	passCount = 0;
+        }
+
+
+        //write memory pattern to region using same seed and display it
+        result = write_pattern(pattern_ptr, LENGTH, SEED);
+        if(result == FAILED)
+      	{
+        	test = FAILED;
+        	//do something with logger
+        }
+        //Display region's memory pattern
+        memDisplay = display_memory(pattern_ptr, LENGTH);
+        if(result == FAILED)
+        {
+        	test = FAILED;
+            //do something with logger
+        }
+        else
+        {
+        	//this will be log_data function
+            for(uint8_t i = 0; i<LENGTH; i++)
+            {
+            	PRINTF("%X", memDisplay[i]);
+            }
+               	PRINTF("/n/r");
+        }
+        //Verify pattern again
+        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, seed);
+        for(uint8 i = 0; i<LENGTH; i++)
+        {
+        	if(*addressFailed_ptr != 0)
+        	{
+        		test = FAILED;
+        		PRINTF("Failure at location: 0x%X\n\r", *addressFailed_ptr);
+        	}
+        }
+
+        //Invert 4 bytes in the region
+        result = invert_block((address_ptr+1), 3);
+
 
 
         /* 'Dummy' NOP to allow source level single stepping of
             tight while() loop */
         __asm volatile ("nop");
- //   }
+    }
     return 0 ;
 }

@@ -72,7 +72,7 @@ mem_status invert_block(uint32_t * loc, size_t length)
 	}
 }
 
-mem_status write_pattern(uint32_t *loc, size_t length, int8_t seed)
+mem_status write_pattern(uint32_t *loc, size_t length, uint8_t seed)
 {
 
 	if(! loc)
@@ -84,6 +84,36 @@ mem_status write_pattern(uint32_t *loc, size_t length, int8_t seed)
 		uint8_t * byteAddress_ptr = (uint8_t *) loc;
 		gen_pattern(byteAddress_ptr, length, seed);
 		return SUCCESS;
+	}
+}
+
+uint32_t * verify_pattern(uint32_t * loc, size_t length, uint8_t seed)
+{
+	if(!loc)
+	{
+		return NULL;
+	}
+	else
+	{
+		uint32_t * failedPatterns_ptr = (uint32_t *)malloc(length*4);
+		uint8_t * testPattern_ptr = (uint8_t *)malloc(length);
+		uint8_t * byteAddress_ptr = (uint8_t *) loc;
+		uint32_t tempAddress = 0x0000;
+
+		gen_pattern(testPattern_ptr, length, seed);
+
+		for(uint8_t i=0; i<length; i++)
+		{
+			failedPatterns_ptr[i] = 0;
+			if(testPattern_ptr[i] != byteAddress_ptr[i])
+			{
+				failedPatterns_ptr[i] = 0;
+				tempAddress = (uint32_t) (byteAddress_ptr+i);
+				failedPatterns_ptr[i] = tempAddress;
+			}
+		}
+
+		return failedPatterns_ptr;
 	}
 }
 

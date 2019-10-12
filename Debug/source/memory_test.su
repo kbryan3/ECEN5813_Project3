@@ -4,3 +4,4 @@ memory_test.c:35:11:display_memory	24	static
 memory_test.c:44:12:write_memory	24	static
 memory_test.c:58:12:invert_block	24	static
 memory_test.c:75:12:write_pattern	32	static
+memory_test.c:90:12:verify_pattern	48	static

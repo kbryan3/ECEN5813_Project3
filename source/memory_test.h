@@ -33,6 +33,7 @@ void free_words(uint32_t *src);
 uint8_t * display_memory(uint32_t *loc, size_t length);
 mem_status write_memory(uint32_t *loc, uint8_t value);
 mem_status invert_block(uint32_t * loc, size_t length);
-mem_status write_pattern(uint32_t * loc, size_t length, int8_t seed);
+mem_status write_pattern(uint32_t * loc, size_t length, uint8_t seed);
+uint32_t * verify_pattern(uint32_t * loc, size_t length, uint8_t seed);
 
 #endif /* __MEMORY_TEST_H__ */
