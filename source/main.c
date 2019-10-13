@@ -43,6 +43,7 @@
 #include "led_control.h"
 #include "pattern_generator.h"
 #include "memory_test.h"
+#include "logger.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
@@ -71,6 +72,7 @@ int main(void) {
     BOARD_InitDebugConsole();
     initializeLEDs();
     toggleLED(OFF);
+    log = DISABLED;
 
 
     /* Force the counter to be placed into memory. */
@@ -82,6 +84,7 @@ int main(void) {
     	uint8_t * memDisplay = (uint8_t *)allocate_words(LENGTH);
     	//start memory test, turn LED Blue
     	toggleLED(BLUE);
+    	log_enable();
 
     	volatile static uint32_t k = 0;
 
@@ -93,23 +96,18 @@ int main(void) {
     	if(result == FAILED)
     	{
     		test = FAILED;
-    		//do something with logger
     	}
     	//Display region's memory pattern
         memDisplay = display_memory(pattern_ptr, LENGTH);
         if(!memDisplay)
         {
         	test = FAILED;
+
         	//do something with logger
         }
         else
         {
-        	//this will be log_data function
-        	for(uint8_t i = 0; i<LENGTH; i++)
-        	{
-        		PRINTF("%02X", memDisplay[i]);
-        	}
-        	PRINTF("\n\r");
+        	log_data(memDisplay, LENGTH);
         }
         //Verify region's memory pattern
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -137,12 +135,7 @@ int main(void) {
         }
         else
         {
-        	//this will be log_data function
-        	for(uint8_t i = 0; i<LENGTH; i++)
-        	{
-        		PRINTF("%02X", memDisplay[i]);
-        	}
-        	PRINTF("\n\r");
+        	log_data(memDisplay, LENGTH);
         }
 
         //Verify pattern again
@@ -182,11 +175,7 @@ int main(void) {
         else
         {
         	//this will be log_data function
-            for(uint8_t i = 0; i<LENGTH; i++)
-            {
-            	PRINTF("%02X", memDisplay[i]);
-            }
-               	PRINTF("\n\r");
+        	log_data(memDisplay, LENGTH);
         }
         //Verify pattern again
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -216,12 +205,7 @@ int main(void) {
        }
        else
        {
-       	//this will be log_data function
-           for(uint8_t i = 0; i<LENGTH; i++)
-           {
-           	PRINTF("%02X", memDisplay[i]);
-           }
-              	PRINTF("\n\r");
+    	   log_data(memDisplay, LENGTH);
        }
        //Verify pattern again
        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -229,7 +213,6 @@ int main(void) {
        {
        	if(addressFailed_ptr[i] != 0)
            {
-
        		passCount++;
            }
        }
@@ -260,11 +243,7 @@ int main(void) {
        else
        {
        	//this will be log_data function
-           for(uint8_t i = 0; i<LENGTH; i++)
-           {
-           	PRINTF("%02X", memDisplay[i]);
-           }
-              	PRINTF("\n\r");
+    	   log_data(memDisplay, LENGTH);
        }
        //Verify pattern again
        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);

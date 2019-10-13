@@ -1,6 +1,6 @@
  /********************************************************************
 *
-* @file pattern_generator.c
+* @file pattern_generator.h
 * @brief Generates a random byte array
 *
 * Contains a gen_patter function that generates a byte array based

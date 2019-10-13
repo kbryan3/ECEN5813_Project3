@@ -1,0 +1,6 @@
+logger.c:24:6:log_enable	8	static
+logger.c:29:6:log_disable	8	static
+logger.c:35:7:log_status	8	static
+logger.c:48:6:log_data	24	static
+logger.c:60:6:log_string	16	static
+logger.c:65:6:log_int	16	static

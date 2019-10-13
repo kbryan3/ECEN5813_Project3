@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../source/led_control.c \
+../source/logger.c \
 ../source/main.c \
 ../source/memory_test.c \
 ../source/mtb.c \
@@ -13,6 +14,7 @@ C_SRCS += \
 
 OBJS += \
 ./source/led_control.o \
+./source/logger.o \
 ./source/main.o \
 ./source/memory_test.o \
 ./source/mtb.o \
@@ -21,6 +23,7 @@ OBJS += \
 
 C_DEPS += \
 ./source/led_control.d \
+./source/logger.d \
 ./source/main.d \
 ./source/memory_test.d \
 ./source/mtb.d \

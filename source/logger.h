@@ -18,12 +18,15 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef enum log_status
+typedef enum logger_status
 {
-	OFF = 0,    //logger is off
-	ON = 1      //logger is on
+	DISABLED,    //logger is off
+	ENABLED      //logger is on
 
-}log_status;
+}logger_status;
+
+extern logger_status log;
+
 
 /**
 * @brief Generates a pattern of bytes based off a given seed value
@@ -40,8 +43,10 @@ typedef enum log_status
 */
 void log_enable();
 void log_disable();
-_BOOL log_status();
+_Bool log_status();
 void log_data();
+void log_string(uint8_t * string);
+void log_integer(uint32_t * integer);
 
 
 
