@@ -92,6 +92,7 @@ int main(void) {
     	//pointer to values of failed addresses during memory test
     	uint32_t * addressFailed_ptr = allocate_words(LENGTH);
     	uint8_t * memDisplay = (uint8_t *)allocate_words(LENGTH);
+      uint32_t * offset_ptr = allocate_words(1);
     	//start memory test, turn LED Blue
 #ifndef PC
     	toggleLED(BLUE);
@@ -139,7 +140,8 @@ int main(void) {
         	{
         	   test = FAILED;
              log_string((uint8_t*)"Failure at Location:");
-//             log_data((pattern_ptr+i), 1);
+             *offset_ptr = i;
+             log_data(get_address(offset_ptr, pattern_ptr), 1);
         	}
         }
 
@@ -171,7 +173,8 @@ int main(void) {
             {
         		    passCount++;
                 log_string((uint8_t*)"Failure at Location:");
-//                log_data((pattern_ptr+i), 1);
+                *offset_ptr = i;
+                log_data(get_address(offset_ptr, pattern_ptr), 1);
             }
         }
         if(passCount == 0)
@@ -213,7 +216,8 @@ int main(void) {
         	{
         		test = FAILED;
             log_string((uint8_t*)"Failure at Location:");
-//                log_data((pattern_ptr+i), 1);
+            *offset_ptr = i;
+            log_data(get_address(offset_ptr, pattern_ptr), 1);
         	}
         }
 
@@ -245,7 +249,8 @@ int main(void) {
          {
        	   passCount++;
            log_string((uint8_t*)"Failure at Location:");
-//                log_data((pattern_ptr+i), 1);
+           *offset_ptr = i;
+           log_data(get_address(offset_ptr, pattern_ptr), 1);
          }
        }
        if(passCount == 0)
@@ -285,11 +290,14 @@ int main(void) {
     	   {
     		   test = FAILED;
            log_string((uint8_t*)"Failure at Location:");
-//                log_data((pattern_ptr+i), 1);
+           *offset_ptr = i;
+           log_data(get_address(offset_ptr, pattern_ptr), 1);
     	   }
        }
 //Free the 16 byte allocated region
        free_words(pattern_ptr);
+       free_words(offset_ptr);
+       free_words(addressFailed_ptr);
 //toggle LED to Green(pass) or Red(Fail) based on result of memory test
         if(!test)
         {

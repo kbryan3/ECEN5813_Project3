@@ -93,7 +93,7 @@ mem_status invert_block(uint32_t * loc, size_t length);
 /**
 * @brief Writes a specified pattern to memory
 *
-* Fucntion writes a pattern based on seed valuethat is of size(num bytes)
+* Function writes a pattern based on seed valuethat is of size(num bytes)
 * length to a specified base address
 *
 * @param uint32_t* loc pointer to memory location
@@ -107,7 +107,7 @@ mem_status write_pattern(uint32_t * loc, size_t length, uint8_t seed);
 /**
 * @brief Verifies a memory pattern is correct
 *
-* Fucntion verifies memory contains the correct pattern based on seed value
+* Function verifies memory contains the correct pattern based on seed value
 * that is of size(num bytes) length to a specified base address
 *
 * @param uint32_t* loc pointer to memory location
@@ -117,5 +117,18 @@ mem_status write_pattern(uint32_t * loc, size_t length, uint8_t seed);
 * @return uint32_t * list of addresses where the pattern has failed
 */
 uint32_t * verify_pattern(uint32_t * loc, size_t length, uint8_t seed);
+
+/**
+* @brief Returns an offsetted address
+*
+* Given a base address and an offset, this function returns the address of the
+* base adress+offset location
+*
+* @param uint32_t* base_addr pointer to base memory Location
+* @param uint32_t* offset desired from base memory location
+*
+* @return uint32_t* pointer to base_address + offset
+*/
+uint32_t * get_address(uint32_t* offset, uint32_t* base_addr);
 
 #endif /* __MEMORY_TEST_H__ */

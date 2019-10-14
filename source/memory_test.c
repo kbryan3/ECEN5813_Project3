@@ -117,3 +117,10 @@ uint32_t * verify_pattern(uint32_t * loc, size_t length, uint8_t seed)
 		return failedPatterns_ptr;
 	}
 }
+
+uint32_t * get_address(uint32_t* offset, uint32_t* base_addr)
+{
+	uint8_t * byte_ptr = (uint8_t *) base_addr;
+	byte_ptr += *offset;
+	return (uint32_t *)byte_ptr;
+}
