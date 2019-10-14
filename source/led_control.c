@@ -12,6 +12,7 @@
 *
 ***********************************************************************/
 #include <stdint.h>
+#ifndef PC
 #include "led_control.h"
 #include "board.h"
 #include "peripherals.h"
@@ -19,6 +20,7 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
+#endif
 
 
 
@@ -60,4 +62,3 @@ void toggleLED(uint8_t ledColor)
 	}
 
 }
-

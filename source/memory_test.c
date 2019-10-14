@@ -14,6 +14,7 @@
 ***********************************************************************/
 #include "memory_test.h"
 #include "pattern_generator.h"
+#include "logger.h"
 
 uint32_t * allocate_words(size_t length)
 {
@@ -27,7 +28,7 @@ void free_words(uint32_t * src)
 {
 	if(! src)
 	{
-		PRINTF("No memory allocated\n\r");
+		log_string((uint8_t*)"No memory allocated");
 	}
 	free(src);
 }
@@ -108,7 +109,7 @@ uint32_t * verify_pattern(uint32_t * loc, size_t length, uint8_t seed)
 			if(testPattern_ptr[i] != byteAddress_ptr[i])
 			{
 				failedPatterns_ptr[i] = 0;
-				tempAddress = (uint32_t) (byteAddress_ptr+i);
+				tempAddress = (uintptr_t) (byteAddress_ptr+i);
 				failedPatterns_ptr[i] = tempAddress;
 			}
 		}
@@ -116,5 +117,3 @@ uint32_t * verify_pattern(uint32_t * loc, size_t length, uint8_t seed)
 		return failedPatterns_ptr;
 	}
 }
-
-

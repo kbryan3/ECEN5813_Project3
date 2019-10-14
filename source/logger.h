@@ -29,26 +29,61 @@ extern _Bool log_a;
 
 
 /**
-* @brief Generates a pattern of bytes based off a given seed value
+* @brief Enables logger
 *
-* This function creates an array of bytes whose value is based on a given
-* seed value and whose length is based on a given length in bytes
-*
-* @param uint8_t *pattern a pointer to a byte array where a pattern is
-*                           written
-* @param size_t length	number of bytes the pattern should be
-* @param uint8_t seed    value used to randomize the pattern
+* When called the logger is enabled
 *
 *@return void
 */
 void log_enable();
+
+/**
+* @brief Disables logger
+*
+* When called the logger is disabled
+*
+*@return void
+*/
 void log_disable();
+
+/**
+* @brief Gives logger status
+*
+* When called the status(Enabled/Disabled) is returned
+*
+*@return _Bool Whether the logger is enabled(TRUE) or disabled(FALSE)
+*/
 _Bool log_status();
-void log_data();
+
+/**
+* @brief Prints data in memory_ptr
+*
+* Given a base address and number of bytes the memory region is printed
+*
+* @param uint32_t * loc base address for region to display
+* @param size_t length number of bytes to display
+* @return void
+*/
+void log_data(uint32_t * loc, size_t length);
+
+/**
+* @brief Prints a given String
+*
+* @param uint8_t * pointer to an address that is same value as string
+* 
+* @return void
+*/
 void log_string(uint8_t * str);
+
+/**
+* @brief Prints a given number
+*
+* @param uint32_t* pointer to an address that is same value as integer
+*
+* @return void
+*/
 void log_integer(uint32_t * integer);
 
 
 
 #endif /* __LOGGER_H__ */
-
