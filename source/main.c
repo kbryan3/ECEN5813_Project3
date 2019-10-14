@@ -147,7 +147,15 @@ int main(void) {
 
 //Write 0xFFEE to a position within that region
         log_string((uint8_t*)"------Begin 0xFFEE test------");
-        result = write_memory((pattern_ptr+2), 0xFF);
+        *offset_ptr = 9;
+        result = write_memory(get_address(offset_ptr, pattern_ptr), 0xEE);
+        if(result == FAILED)
+        {
+          test = FAILED;
+          log_string((uint8_t*)"Memory Access Error: returned NULL");
+        }
+        *offset_ptr = 10;
+        result = write_memory(get_address(offset_ptr, pattern_ptr), 0xFF);
         if(result == FAILED)
         {
           test = FAILED;
