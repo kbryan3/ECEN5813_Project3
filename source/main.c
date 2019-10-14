@@ -95,12 +95,11 @@ int main(void) {
     	//start memory test, turn LED Blue
 #ifndef PC
     	toggleLED(BLUE);
+#else
+      printf("LED BLUE\n");
 #endif
 #ifdef DEBUG
     	log_enable();
-      printf("Log Enable\n");
-#else
-      printf("Log Disabled\n");
 #endif
 //      log_string((uint8_t*)"hello world");
 
@@ -110,10 +109,12 @@ int main(void) {
     	uint32_t * pattern_ptr = allocate_words(LENGTH);
 
 //Write a memory pattern to the 16 byte region
+      log_string((uint8_t*)"------Begin initial pattern test------");
     	result = write_pattern(pattern_ptr, LENGTH, SEED);
     	if(result == FAILED)
     	{
     		test = FAILED;
+        log_string((uint8_t*)"Memory Access Error: Failed to Write Pattern");
     	}
 
     	//Display region's memory pattern
@@ -121,55 +122,56 @@ int main(void) {
         if(!memDisplay)
         {
         	test = FAILED;
-
-        	//do something with logger
+          log_string((uint8_t*)"Memory Access Error: returned NULL");
         }
         else
         {
-       	  log_string((uint8_t*)"Memory Region:");
+       	  log_string((uint8_t*)"Memory Region of initial pattern test:");
         	log_data(pattern_ptr, LENGTH);
-
-
-          printf("\n");
-
+          free(memDisplay);
         }
+
         //Verify region's memory pattern
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
         for(uint8_t i = 0; i<LENGTH; i++)
         {
         	if(addressFailed_ptr[i] != 0)
         	{
-        		test = FAILED;
-//        		PRINTF("Failure at location: 0x%X\n\r", addressFailed_ptr[i]);
-
+        	   test = FAILED;
+             log_string((uint8_t*)"Failure at Location:");
+//             log_data((pattern_ptr+i), 1);
         	}
         }
 
-        printf("0xFFEE\n");
 //Write 0xFFEE to a position within that region
+        log_string((uint8_t*)"------Begin 0xFFEE test------");
         result = write_memory((pattern_ptr+2), 0xFF);
         if(result == FAILED)
         {
-        	//print something
+          test = FAILED;
+          log_string((uint8_t*)"Memory Access Error: returned NULL");
         }
-
         memDisplay = display_memory(pattern_ptr, LENGTH);
         if(!memDisplay)
         {
         	test = FAILED;
+          log_string((uint8_t*)"Memory Access Error: returned NULL");
         }
         else
         {
-//        	log_data(pattern_ptr, LENGTH);
+          log_string((uint8_t*)"Memory Region of 0xFFEE test:");
+        	log_data(pattern_ptr, LENGTH);
+          free(memDisplay);
         }
-
         //Verify pattern again
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
         for(uint8_t i = 0; i<LENGTH; i++)
         {
         	if(addressFailed_ptr[i] != 0)
             {
-        		passCount++;
+        		    passCount++;
+                log_string((uint8_t*)"Failure at Location:");
+//                log_data((pattern_ptr+i), 1);
             }
         }
         if(passCount == 0)
@@ -183,23 +185,25 @@ int main(void) {
 
 
 //write memory pattern to region using same seed and display it
+        log_string((uint8_t*)"------Rewriting Pattern------");
         result = write_pattern(pattern_ptr, LENGTH, SEED);
         if(result == FAILED)
       	{
         	test = FAILED;
-        	//do something with logger
+        	log_string((uint8_t*)"Memory Access Error: returned NULL");
         }
         //Display region's memory pattern
         memDisplay = display_memory(pattern_ptr, LENGTH);
         if(!memDisplay)
         {
         	test = FAILED;
-            //do something with logger
+          log_string((uint8_t*)"Memory Access Error: returned NULL");
         }
         else
         {
-        	//this will be log_data function
-//        	log_data(pattern_ptr, LENGTH);
+          log_string((uint8_t*)"Memory Region of pattern:");
+          log_data(pattern_ptr, LENGTH);
+          free(memDisplay);
         }
         //Verify pattern again
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -208,37 +212,41 @@ int main(void) {
         	if(addressFailed_ptr[i] != 0)
         	{
         		test = FAILED;
-//        		PRINTF("Failure at location: 0x%X\n\r", addressFailed_ptr[i]);
+            log_string((uint8_t*)"Failure at Location:");
+//                log_data((pattern_ptr+i), 1);
         	}
         }
 
-        printf("0xFFEE\n");
 //Invert 4 bytes in the region
        result = invert_block((pattern_ptr+1), 4);
+       log_string((uint8_t*)"------Inverting memory test------");
        if(result == FAILED)
        {
     	   test = FAILED;
-    	   //do something with logger
+    	   log_string((uint8_t*)"Memory Access Error: returned NULL");
        }
        //display memory in the region
        memDisplay = display_memory(pattern_ptr, LENGTH);
        if(!memDisplay)
        {
        	test = FAILED;
-           //do something with logger
+        log_string((uint8_t*)"Memory Access Error: returned NULL");
        }
        else
        {
-//    	   log_data(pattern_ptr, LENGTH);
+    	   log_data(pattern_ptr, LENGTH);
+         free(memDisplay);
        }
        //Verify pattern again
        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
        for(uint8_t i = 0; i<LENGTH; i++)
        {
-       	if(addressFailed_ptr[i] != 0)
-           {
-       		passCount++;
-           }
+       	 if(addressFailed_ptr[i] != 0)
+         {
+       	   passCount++;
+           log_string((uint8_t*)"Failure at Location:");
+//                log_data((pattern_ptr+i), 1);
+         }
        }
        if(passCount == 0)
        {
@@ -249,25 +257,25 @@ int main(void) {
        	passCount = 0;
        }
 
-       printf("0xFFEE\n");
+
  //Invert those 4 bytes again in the LMA region
+       log_string((uint8_t*)"------Uninverting 4 bytes test------");
        result = invert_block((pattern_ptr+1), 4);
        if(result == FAILED)
        {
     	   test = FAILED;
-    	   //do something with logger
+    	   log_string((uint8_t*)"Memory Access Error: returned NULL");
        }
        //display memory in the region
        memDisplay = display_memory(pattern_ptr, LENGTH);
        if(!memDisplay)
        {
        	test = FAILED;
-           //do something with logger
+        log_string((uint8_t*)"Memory Access Error: returned NULL");
        }
        else
        {
-       	//this will be log_data function
-//    	   log_data(pattern_ptr, LENGTH);
+    	   log_data(pattern_ptr, LENGTH);
        }
        //Verify pattern again
        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -276,27 +284,30 @@ int main(void) {
     	   if(addressFailed_ptr[i] != 0)
     	   {
     		   test = FAILED;
-//    		   PRINTF("Failure at location: 0x%X\n\r", addressFailed_ptr[i]);
+           log_string((uint8_t*)"Failure at Location:");
+//                log_data((pattern_ptr+i), 1);
     	   }
        }
-
 //Free the 16 byte allocated region
-       printf("0xFFEE\n");
        free_words(pattern_ptr);
-       printf("0xFFEE\n");
-
-
 //toggle LED to Green(pass) or Red(Fail) based on result of memory test
-#ifndef PC
         if(!test)
         {
+#ifndef PC
         	toggleLED(GREEN);
+#else
+          printf("LED GREEN\n");
+#endif
        	}
         else
        	{
-       		toggleLED(RED);
-       	}
+#ifndef PC
+          toggleLED(RED);
+#else
+          printf("LED RED\n");
 #endif
+       	}
+
         while(1)
         {
         	k++;
@@ -305,9 +316,6 @@ int main(void) {
                 tight while() loop */
             __asm volatile ("nop");
         }
-
-
-
     }
     return 0 ;
 }
