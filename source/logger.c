@@ -23,18 +23,18 @@
 
 void log_enable()
 {
-	log = ENABLED;
+	log_a = 1;
 }
 
 void log_disable()
 {
-	log = DISABLED;
+	log_a = 0;
 }
 
 
 _Bool log_status()
 {
-	if(log == ENABLED)
+	if(log_a)
 	{
 		return 1;
 	}
@@ -47,24 +47,35 @@ _Bool log_status()
 
 void log_data(uint32_t * loc, size_t length)
 {
-	uint8_t * bytes_ptr = (uint8_t *)loc;
-
-	for(uint8_t i = 0; i<length; i++)
+	if(log_a)
 	{
-		PRINTF("Address: 0x%X    Data: 0x%02X\n\r", bytes_ptr, *bytes_ptr);
+		uint8_t * bytes_ptr = (uint8_t *)loc;
+
+		for(uint8_t i = 0; i<length; i++)
+		{
+			PRINTF("Address: 0x%X    Data: 0x%02X\n\r", bytes_ptr+i, bytes_ptr[i]);
+		}
+
+		PRINTF("\n\r");
 	}
 
-	PRINTF("\n\r");
 }
 
 void log_string(uint8_t * string)
 {
-	PRINTF("%s", string);
+	if(log_a)
+	{
+		PRINTF("%s", string);
+	}
 }
 
 void log_int(uint32_t * integer)
 {
-	PRINTF("%d", integer);
-	PRINTF("\n\r");
+	if(log_a)
+	{
+		PRINTF("%d", integer);
+		PRINTF("\n\r");
+	}
+
 }
 

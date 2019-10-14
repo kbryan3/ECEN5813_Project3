@@ -56,6 +56,8 @@ const uint8_t SEED = 29;
 
 mem_status result = SUCCESS;
 mem_status test = SUCCESS;
+_Bool log_a;
+
 
 uint8_t passCount = 0;
 
@@ -72,7 +74,8 @@ int main(void) {
     BOARD_InitDebugConsole();
     initializeLEDs();
     toggleLED(OFF);
-    log = DISABLED;
+    log_a = 0;
+
 
 
     /* Force the counter to be placed into memory. */
@@ -107,7 +110,7 @@ int main(void) {
         }
         else
         {
-        	log_data(memDisplay, LENGTH);
+        	log_data(pattern_ptr, LENGTH);
         }
         //Verify region's memory pattern
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -135,7 +138,7 @@ int main(void) {
         }
         else
         {
-        	log_data(memDisplay, LENGTH);
+        	log_data(pattern_ptr, LENGTH);
         }
 
         //Verify pattern again
@@ -175,7 +178,7 @@ int main(void) {
         else
         {
         	//this will be log_data function
-        	log_data(memDisplay, LENGTH);
+        	log_data(pattern_ptr, LENGTH);
         }
         //Verify pattern again
         addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -205,7 +208,7 @@ int main(void) {
        }
        else
        {
-    	   log_data(memDisplay, LENGTH);
+    	   log_data(pattern_ptr, LENGTH);
        }
        //Verify pattern again
        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);
@@ -243,7 +246,7 @@ int main(void) {
        else
        {
        	//this will be log_data function
-    	   log_data(memDisplay, LENGTH);
+    	   log_data(pattern_ptr, LENGTH);
        }
        //Verify pattern again
        addressFailed_ptr = verify_pattern(pattern_ptr, LENGTH, SEED);

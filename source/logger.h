@@ -25,7 +25,7 @@ typedef enum logger_status
 
 }logger_status;
 
-extern logger_status log;
+extern _Bool log_a;
 
 
 /**
