@@ -42,13 +42,13 @@ endif
 ############################
 # List of object files
 OBJS_FB := \
- 	./source/main.o \
- 	./source/led_control.o \
- 	./source/logger.o \
- 	./source/memory_test.o \
- 	./source/pattern_generator.o \
-  ./source/mtb.o \
-  ./source/semihost_hardfault.o \
+	./source/main.o \
+	./source/led_control.o \
+	./source/logger.o \
+	./source/memory_test.o \
+	./source/pattern_generator.o \
+	./source/mtb.o \
+	./source/semihost_hardfault.o \
 	./startup/startup_mkl25z4.o \
 	./CMSIS/system_MKL25Z4.o \
 	./utilities/fsl_debug_console.o \
@@ -80,12 +80,12 @@ endif
 ############################
 # List of dependency files
 C_DEPS_FB := \
-  ./board/*.d \
-  ./CMSIS/*.d \
-  ./drivers/*.d \
-  ./source/*.d \
-  ./startup/*.d \
-  ./utilities/*.d
+ 	./board/*.d \
+ 	./CMSIS/*.d \
+ 	./drivers/*.d \
+ 	./source/*.d \
+ 	./startup/*.d \
+ 	./utilities/*.d
 
 C_DEPS_PC := \
 	./source/main.d \
