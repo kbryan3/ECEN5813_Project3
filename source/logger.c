@@ -61,11 +61,11 @@ void log_data(uint32_t * loc, size_t length)
 
 }
 
-void log_string(uint8_t * string)
+void log_string(uint8_t * str)
 {
 	if(log_a)
 	{
-		PRINTF("%s", string);
+		PRINTF("%s", str);
 	}
 }
 

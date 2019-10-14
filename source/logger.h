@@ -45,7 +45,7 @@ void log_enable();
 void log_disable();
 _Bool log_status();
 void log_data();
-void log_string(uint8_t * string);
+void log_string(uint8_t * str);
 void log_integer(uint32_t * integer);
 
 

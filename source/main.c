@@ -110,6 +110,7 @@ int main(void) {
         }
         else
         {
+        	log_string((uint8_t*)"Printing a string");
         	log_data(pattern_ptr, LENGTH);
         }
         //Verify region's memory pattern
