@@ -30,7 +30,17 @@
 
 /**
  * @file    main.c
- * @brief   Application entry point.
+ * @brief   Runs memory tests on a chosen memory space
+ *
+ *  This is the main file for the application that runs through different memory
+ *  tests and displays thier results.  The length(in bytes) of the memory space
+ *  and the seed value(to feed the random pattern generation) can be modified
+ *  by changing the value of LENGTH and SEED constants.  If all tests are run
+ *  successfully then the KLZ25 LED will turn green, if not red.
+ *
+ * @author Kyle Bryan
+ * @date October 2019
+ * version 1.0
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,9 +59,7 @@
 #include "pattern_generator.h"
 #include "memory_test.h"
 #include "logger.h"
-/* TODO: insert other include files here. */
 
-/* TODO: insert other definitions and declarations here. */
 const uint8_t RED = 0;
 const uint8_t GREEN = 1;
 const uint8_t BLUE = 2;
@@ -82,11 +90,6 @@ int main(void) {
     toggleLED(OFF);
 #endif
     log_a = 0;
-
-
-
-    /* Force the counter to be placed into memory. */
-//    volatile static int i = 0 ;
     /* Enter an infinite loop*/
     while(1) {
     	//pointer to values of failed addresses during memory test
@@ -102,7 +105,6 @@ int main(void) {
 #ifdef DEBUG
     	log_enable();
 #endif
-//      log_string((uint8_t*)"hello world");
 
     	volatile static uint32_t k = 0;
 
